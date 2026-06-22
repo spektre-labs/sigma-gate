@@ -26,6 +26,7 @@ Source = "https://github.com/spektre-labs/guard"
 
 [project.scripts]
 guard = "guard.__main__:_entry"
+guard-mcp = "guard.mcp:main"
 
 [tool.setuptools]
 packages = ["guard"]

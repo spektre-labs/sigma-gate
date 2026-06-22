@@ -1,19 +1,81 @@
 <!doctype html><html lang=en><meta charset=utf-8>
 <meta name=viewport content="width=device-width,initial-scale=1">
 <title>σ-gate — LLM coherence scoring</title>
-<style>body{font:17px/1.6 system-ui,sans-serif;max-width:640px;margin:6vh auto;padding:0 20px;color:#111}
-a.btn{display:inline-block;background:#635bff;color:#fff;padding:12px 22px;border-radius:8px;text-decoration:none;font-weight:600}
-code{background:#f4f4f5;padding:2px 6px;border-radius:4px}pre{background:#f4f4f5;padding:14px;border-radius:8px;overflow:auto}
-.muted{color:#666}</style>
-<h1>σ-gate</h1>
-<p><b>Deterministic LLM-output coherence &amp; hallucination scoring.</b> One call returns a 0–1 score — catches hedging, contradictions, and over-confident absolutes. No model dependency, ~85µs, fully deterministic.</p>
-<h3>Try it free (x402, no account)</h3>
-<pre>curl "https://swagletz-sigmagate.hf.space/check?text=your+text+here"</pre>
-<p class=muted>Returns HTTP 402 with a Solana USDC pay-to (0.001 USDC/call) — permissionless, no signup.</p>
-<h3>Buy a credit pack (card)</h3>
-<p><a class=btn href="https://buy.stripe.com/14AeVf6J2ehZegscnZdEs02">Get 1000 checks — €9</a></p>
-<p class=muted>Card checkout. No account. For agent builders, RAG pipelines, and LLM eval.</p>
-<h3>On Telegram</h3>
+<style>
+:root{--bg:#0d0d0f;--fg:#e8e8ea;--muted:#888;--accent:#635bff;--border:#222}
+*{box-sizing:border-box}
+body{font:16px/1.65 system-ui,sans-serif;background:var(--bg);color:var(--fg);max-width:660px;margin:7vh auto;padding:0 24px}
+h1{font-size:2rem;font-weight:700;letter-spacing:-.02em;margin:0 0 4px}
+h1 span{color:var(--accent)}
+h2{font-size:1rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin:2.4em 0 .7em}
+p{margin:.5em 0 1em;color:var(--fg)}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+a.btn{display:inline-block;background:var(--accent);color:#fff;padding:11px 20px;border-radius:7px;text-decoration:none;font-weight:600;font-size:.95rem}
+a.btn:hover{opacity:.88}
+code{background:#181820;color:#c9c9e0;padding:2px 7px;border-radius:4px;font-size:.92em}
+pre{background:#181820;color:#c9c9e0;padding:16px;border-radius:8px;overflow:auto;font-size:.88em;line-height:1.55;border:1px solid var(--border)}
+.muted{color:var(--muted);font-size:.9em}
+.pill{display:inline-block;background:#181820;border:1px solid var(--border);border-radius:4px;padding:2px 8px;font-size:.82em;color:var(--muted);margin-right:4px}
+hr{border:none;border-top:1px solid var(--border);margin:2.2em 0}
+table{width:100%;border-collapse:collapse;font-size:.9em}
+th{text-align:left;color:var(--muted);font-weight:600;padding:6px 8px;border-bottom:1px solid var(--border)}
+td{padding:7px 8px;border-bottom:1px solid #181820;vertical-align:top}
+td:first-child{font-weight:600;white-space:nowrap}
+</style>
+
+<h1><span>σ</span>-gate</h1>
+<p style="color:var(--muted);margin:.2em 0 1.4em;font-size:1.05em">Deterministic trust layer for AI/agent output.</p>
+
+<p><b>One call. Three dimensions. One verdict.</b> Catches leaked credentials, prompt-injection, and PII structurally — no model, no API key, ~85µs, fully deterministic. A separate hosted path adds probabilistic coherence / hallucination σ-scoring.</p>
+
+<h2>Open-core — free, zero-dependency</h2>
+
+<pre>from guard import guard
+
+v = guard("Here is the key: ghp_16C7e42F292c6912E7710c838347Ae178B4a")
+# {"safe_to_ship": False, "severity": "high",
+#  "block_reasons": ["secret[high]: github_pat"], …}</pre>
+
+<p><span class=pill>secret</span><span class=pill>injection</span><span class=pill>pii</span> — three independent detectors, one verdict, zero dependencies.</p>
+
+<pre>git clone https://github.com/spektre-labs/sigma-gate
+python3 -m pytest -q   # passes in &lt;1 s, no pip install needed</pre>
+
+<p>Then <code>from guard import guard</code>. CLI: <code>echo "text" | python3 -m guard</code>. MCP server: <code>python3 mcp_server.py</code>.</p>
+
+<hr>
+
+<h2>Hosted — coherence / hallucination σ-scoring</h2>
+
+<p>When structure alone is insufficient — does the output contradict the context? Is the model hedging or fabricating? — the hosted endpoint scores semantic coherence. Pay-per-call via x402 (Solana USDC), no signup.</p>
+
+<pre>curl "https://swagletz-sigmagate.hf.space/check?text=your+output&context=your+context"
+# HTTP 402 → pay 0.001 USDC → retry with X-Payment-Tx header → JSON score</pre>
+
+<table>
+<tr><th></th><th>Open-core</th><th>Hosted</th></tr>
+<tr><td>What</td><td>Secret · injection · PII</td><td>Coherence · hallucination σ</td></tr>
+<tr><td>Latency</td><td>~85µs</td><td>Network round-trip</td></tr>
+<tr><td>Cost</td><td>Free</td><td>0.001 USDC/call</td></tr>
+<tr><td>Offline</td><td>Yes</td><td>No</td></tr>
+<tr><td>Dependencies</td><td>Zero</td><td>None on your side</td></tr>
+</table>
+
+<p style="margin-top:1em"><a href="hosted.md">Full hosted API docs →</a></p>
+
+<hr>
+
+<h2>Buy credit pack (card)</h2>
+
+<p><a class=btn href="https://buy.stripe.com/14AeVf6J2ehZegscnZdEs02">1000 checks — €9</a></p>
+<p class=muted>Card checkout. No account. Works for the hosted coherence endpoint.</p>
+
+<h2>On Telegram</h2>
+
 <p>Score text on your phone: <a href="https://t.me/railotelegram_bot">@railotelegram_bot</a> — <code>/check &lt;text&gt;</code> (25 free) · <code>/research &lt;topic&gt;</code> · pay with Stars.</p>
-<hr><p class=muted>Built by spektre-labs · deterministic trust layer for AI.</p>
+
+<hr>
+<p class=muted>Built by <a href="https://spektrelabs.org">Spektre Labs</a> · Apache 2.0 · <a href="https://github.com/spektre-labs/sigma-gate">github</a><br>
+<code>1 = 1</code> — deterministic trust layer for AI.</p>
 </html>

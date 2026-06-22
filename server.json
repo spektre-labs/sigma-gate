@@ -1,0 +1,18 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json",
+  "name": "io.github.spektre-labs/sigma-gate",
+  "description": "Deterministic pre-ship trust gate for AI/agent output: leaked-secret, prompt-injection, and PII detection in one ~85us call. No model, no API key, same verdict every time.",
+  "repository": {
+    "url": "https://github.com/spektre-labs/sigma-gate",
+    "source": "github"
+  },
+  "version": "1.0.0",
+  "packages": [
+    {
+      "registryType": "pypi",
+      "identifier": "guard-trustgate",
+      "version": "1.0.0",
+      "transport": { "type": "stdio" }
+    }
+  ]
+}
