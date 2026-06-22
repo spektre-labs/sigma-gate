@@ -115,6 +115,30 @@ GUARD_BLOCK_AT=high python3 -m guard "..."
 
 ---
 
+## Use as an MCP tool
+
+σ-gate ships a zero-dependency [MCP](https://modelcontextprotocol.io) server — give any agent
+(Claude Code, Claude Desktop, Cursor, Cline) a deterministic `guard` tool it can call before shipping
+output. No model, no key, no token cost.
+
+**Claude Code:**
+
+```bash
+claude mcp add guard -- python3 /absolute/path/to/sigma-gate/mcp_server.py
+```
+
+**Claude Desktop** (`claude_desktop_config.json`):
+
+```json
+{ "mcpServers": { "guard": { "command": "python3",
+  "args": ["/absolute/path/to/sigma-gate/mcp_server.py"] } } }
+```
+
+Exposes two tools: `guard(text, …)` → the ship/block verdict, and `guard_selftest()` → proof every
+threat class fires. Pure stdlib stdio JSON-RPC.
+
+---
+
 ## Open-core vs hosted
 
 | | **Open core (this repo)** | **Hosted σ scoring** |
