@@ -1,0 +1,10 @@
+.git/
+mcp-publisher
+dist/
+build/
+*.egg-info/
+__pycache__/
+server.json
+integrations/
+examples/
+docs/
