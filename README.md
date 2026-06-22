@@ -137,6 +137,18 @@ claude mcp add guard -- python3 /absolute/path/to/sigma-gate/mcp_server.py
 Exposes two tools: `guard(text, …)` → the ship/block verdict, and `guard_selftest()` → proof every
 threat class fires. Pure stdlib stdio JSON-RPC.
 
+### Hosted — no install
+
+σ-gate also runs as a **hosted remote MCP server** (scale-to-zero), listed in the
+[official MCP Registry](https://registry.modelcontextprotocol.io) as `io.github.spektre-labs/sigma-gate`.
+Connect with zero local setup:
+
+```
+https://sigma-gate-864996675261.us-central1.run.app/mcp
+```
+
+MCP clients that browse the registry discover it automatically.
+
 ---
 
 ## Open-core vs hosted
