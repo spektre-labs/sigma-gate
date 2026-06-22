@@ -1,5 +1,7 @@
 # σ-gate
 
+[![ci](https://github.com/spektre-labs/sigma-gate/actions/workflows/ci.yml/badge.svg)](https://github.com/spektre-labs/sigma-gate/actions/workflows/ci.yml)
+
 **Deterministic trust layer for AI/agent output.**
 
 ```
