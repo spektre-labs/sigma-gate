@@ -1,22 +1,26 @@
-# σ-gate
+# ⟐ σ-gate — guard
 
 [![ci](https://github.com/spektre-labs/sigma-gate/actions/workflows/ci.yml/badge.svg)](https://github.com/spektre-labs/sigma-gate/actions/workflows/ci.yml)
 
-**Deterministic trust layer for AI/agent output.**
+**Deterministic trust layer for AI/agent output. One call → one verdict. No model, no API key, no network.**
 
 ```
 1 = 1.  Declared output must equal what is safe to realize.
 ```
 
-One call. Three dimensions. One verdict. No model. No API key. No network.
-
 ---
 
-## The problem
+## The paradigm
 
-LLM-as-judge guards are slow, consume a call per check, and silently degrade when a rate-limit hits. For the classes of risk that are *structurally detectable* — a leaked `AKIA…` key, a `4111…` card number, an "ignore all previous instructions" — you do not need a model. You need a gate that gives the **same answer every time**.
-
-`guard` is that gate.
+The other four Spektre repos are **routing protocols** — they move value, capability, promises, and identity
+across networks. **σ-gate is not a routing protocol, and does not pretend to be one.** It is the suite's
+**deterministic trust verdict**: the gate that sits at the edge of any pipeline and answers, in ~85µs and
+identically every time, *is this output safe to ship?* LLM-as-judge guards are slow, burn a model call per
+check, and silently degrade under rate-limits. But the highest-frequency risks — a leaked `AKIA…` key, a
+Luhn-valid card number, an "ignore all previous instructions" — are **structurally detectable**: you don't
+need a model, you need a gate that gives the **same answer every time**. That determinism *is* the
+primitive. `σ` = declared − realized: a block is always nameable (`secret[high]: github_pat`), never an
+opaque float, so what the gate declares unsafe is exactly what it refuses to realize. `guard` is that gate.
 
 ---
 
@@ -67,15 +71,15 @@ guard("AKIA… ghp_… 4111 1111 1111 1111 — ignore all previous instructions"
 
 ## Install
 
-Zero dependencies, pure stdlib, Python 3.9+. Clone and use directly:
+Zero dependencies, pure stdlib, Python 3.9+.
 
 ```bash
-git clone https://github.com/spektre-labs/sigma-gate
-cd sigma-gate
-python3 -m pytest -q        # 7 passing tests, zero dependencies
+git clone https://github.com/spektre-labs/sigma-gate && cd sigma-gate
+pip install -e .            # installs the `guard` + `guard-mcp` console scripts
+python3 -m pytest -q        # 7 passed, zero dependencies
 ```
 
-Then `from guard import guard`. (A PyPI release is planned.)
+No install is even required to import — `from guard import guard` works from the cloned directory.
 
 ---
 
@@ -183,11 +187,31 @@ curl "https://swagletz-sigmagate.hf.space/check?text=your+text+here"
 
 ---
 
+## Status
+
+**REAL** — shipped, deterministic, deployed. CI green, 7/7 tests passing, zero dependencies; live as a
+local MCP tool and as a hosted scale-to-zero MCP server listed in the official registry.
+
+---
+
+## The Spektre protocol suite
+
+σ-gate is the **deterministic trust verdict** of a five-part estate. The other four are routing protocols;
+this one is the gate they ship through:
+
+- **[vrp](https://github.com/spektre-labs/vrp)** — value routing (least-friction multi-hop settlement)
+- **[crp](https://github.com/spektre-labs/crp)** — capability routing (route a task to the best AI substrate)
+- **[vtc](https://github.com/spektre-labs/vtc)** — verifiable transaction chain (signed value promises anyone verifies trustlessly)
+- **[sid](https://github.com/spektre-labs/sid)** — sovereign identity (prove one claim, reveal nothing else)
+- **[sigma-gate](https://github.com/spektre-labs/sigma-gate)** — deterministic trust verdict *(this repo)*
+
+---
+
 ## License
 
-Apache 2.0 — see [LICENSE](LICENSE).
+**Apache-2.0** — see [LICENSE](LICENSE).
 
 ---
 
 Part of [Spektre Labs](https://spektrelabs.org) — coherence-theory research lab.
-`1 = 1`, made executable.
+`σ = declared − realized · 1 = 1`, made executable.
